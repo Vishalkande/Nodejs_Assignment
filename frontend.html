@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>customers Data</title>
+    <script>
+        async function addCustomer() {
+            const data = {
+                first_name: document.getElementById('firstName').value,
+                last_name: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                mobile_number: document.getElementById('mobileNumber').value,
+                address: document.getElementById('address').value,
+                pincode: document.getElementById('pincode').value
+            };
+
+            const response = await fetch('http://localhost:3000/add-customer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        async function updateCustomer() {
+            const customerId = document.getElementById('updateCustomerId').value;
+            const data = {
+                first_name: document.getElementById('updateFirstName').value,
+                last_name: document.getElementById('updateLastName').value,
+                email: document.getElementById('updateEmail').value,
+                mobile_number: document.getElementById('updateMobileNumber').value,
+                address: document.getElementById('updateAddress').value,
+                pincode: document.getElementById('updatePincode').value
+            };
+
+            const response = await fetch(`http://localhost:3000/customer/${customerId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        async function deleteCustomer() {
+            const customerId = document.getElementById('deleteCustomerId').value;
+
+            const response = await fetch(`http://localhost:3000/customer/${customerId}`, {
+                method: 'DELETE'
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</head>
+<body>
+    <h1>Customers Data</h1>
+
+    <h2>Add Customer</h2>
+    <form onsubmit="event.preventDefault(); addCustomer();">
+        <input type="text" id="firstName" placeholder="First Name" required><br>
+        <input type="text" id="lastName" placeholder="Last Name" required><br>
+        <input type="email" id="email" placeholder="Email" required><br>
+        <input type="text" id="mobileNumber" placeholder="Mobile Number" required><br>
+        <input type="text" id="address" placeholder="Address" required><br>
+        <input type="text" id="pincode" placeholder="Pincode" required><br>
+        <button type="submit">Add Customer</button>
+    </form>
+
+    <h2>Update Customer</h2>
+    <form onsubmit="event.preventDefault(); updateCustomer();">
+        <input type="number" id="updateCustomerId" placeholder="Customer ID" required><br>
+        <input type="text" id="updateFirstName" placeholder="First Name" required><br>
+        <input type="text" id="updateLastName" placeholder="Last Name" required><br>
+        <input type="email" id="updateEmail" placeholder="Email" required><br>
+        <input type="text" id="updateMobileNumber" placeholder="Mobile Number" required><br>
+        <input type="text" id="updateAddress" placeholder="Address" required><br>
+        <input type="text" id="updatePincode" placeholder="Pincode" required><br>
+        <button type="submit">Update Customer</button>
+    </form>
+
+    <h2>Delete Customer</h2>
+    <form onsubmit="event.preventDefault(); deleteCustomer();">
+        <input type="number" id="deleteCustomerId" placeholder="Customer ID" required><br>
+        <button type="submit">Delete Customer</button>
+    </form>
+</body>
+</html>
